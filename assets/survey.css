@@ -1,32 +1,22 @@
 /* ==========================================================
    Event Attendee Survey — Marilyne Naaman, live in Qatar
-   White or black page (assets/config.js → theme).
-   Phones and tablets: poster on top, survey card underneath.
-   Desktop: poster and survey side by side.
+   Colours from the poster: charcoal backdrop, blush pink panel.
+   Phones and tablets: the survey card continues straight out of
+   the poster's pink bottom panel. Desktop: poster and survey
+   side by side.
    ========================================================== */
 
-/* Page colour: set theme in assets/config.js — 'white' or 'black' */
 :root {
-  color-scheme: light;
-  --charcoal:     #1D1C1B;   /* poster backdrop */
-
-  --page:         #FFFFFF;
-  --card:         #FFFFFF;
-  --card-border:  #E7E4E4;
-  --option:       #F7F6F6;   /* answer boxes */
-  --line:         #E3E0E0;
-  --line-strong:  #BFBABA;
-  --text:         #1D1C1B;
-  --muted:        #5F5A5B;
-  --accent:       #1D1C1B;   /* selected answers, main button */
-  --accent-hover: #3A3637;
-  --on-accent:    #FFFFFF;
-  --icon-bg:      #FFFFFF;
-  --signal-on:    #6E6869;
-  --signal-off-sel: #55504F;
-  --disabled-bg:  #ECEAEA;
-  --disabled-text:#9C9697;
-  --danger:       #B42318;
+  color-scheme: dark;
+  --charcoal:   #1D1C1B;   /* poster backdrop, page */
+  --pink:       #FFE4FC;   /* poster's pink panel, survey card */
+  --pink-soft:  #FFF3FD;   /* answer options */
+  --line:       #EBC6E2;
+  --line-strong:#C9A0BC;
+  --ink:        #1D1C1B;   /* text on pink */
+  --ink-muted:  #5E4E59;
+  --ink-hover:  #3A3537;
+  --danger:     #B42318;
 
   --font-display: "Fraunces", Georgia, "Times New Roman", serif;
   --font-body:    "Tajawal", "Segoe UI", Tahoma, system-ui, sans-serif;
@@ -34,27 +24,6 @@
   --radius-lg: 18px;
   --radius: 12px;
   --banner-ratio: 1800 / 1160;
-}
-
-:root[data-theme="black"] {
-  color-scheme: dark;
-  --page:         #121111;
-  --card:         #1D1C1B;   /* the poster's charcoal */
-  --card-border:  #2E2B2B;
-  --option:       #262423;
-  --line:         #363332;
-  --line-strong:  #5A5555;
-  --text:         #F6F4F4;
-  --muted:        #ADA6A7;
-  --accent:       #F6F4F4;
-  --accent-hover: #FFFFFF;
-  --on-accent:    #1D1C1B;
-  --icon-bg:      #1D1C1B;
-  --signal-on:    #ADA6A7;
-  --signal-off-sel: #C9C3C4;
-  --disabled-bg:  #2E2B2B;
-  --disabled-text:#7D7677;
-  --danger:       #F97066;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -69,8 +38,8 @@ body {
   margin: 0;
   min-height: 100vh;
   min-height: 100dvh;
-  background: var(--page);
-  color: var(--text);
+  background: var(--charcoal);
+  color: var(--ink);
   font-family: var(--font-body);
   font-size: 1.0625rem;
   line-height: 1.55;
@@ -80,7 +49,7 @@ body {
 
 /* ---------- Layout ---------- */
 
-/* Phones: poster full width, survey flush underneath */
+/* Phones: poster full width, pink survey flush underneath */
 .layout { display: block; }
 .hero { margin: 0; }
 
@@ -101,10 +70,10 @@ body {
 .shell { padding: 0; }
 
 .card {
-  min-height: calc(100dvh - 100vw * 1160 / 1800);   /* card fills the rest of the phone screen */
+  min-height: calc(100dvh - 100vw * 1160 / 1800);   /* pink fills the rest of the phone screen */
   margin: -1px 0 0;                                  /* no hairline between poster and card */
   padding: 12px 20px 36px;
-  background: var(--card);
+  background: var(--pink);
 }
 
 /* Tablets: same idea, framed and centred */
@@ -114,8 +83,6 @@ body {
   .card {
     min-height: 0;
     padding: 20px 40px 40px;
-    border: 1px solid var(--card-border);
-    border-top: 0;
     border-radius: 0 0 var(--radius-lg) var(--radius-lg);
   }
 }
@@ -137,7 +104,6 @@ body {
     flex: 1;
     margin: 0;
     padding: 32px 40px 36px;
-    border: 1px solid var(--card-border);
     border-radius: var(--radius-lg);
   }
 }
@@ -158,7 +124,7 @@ body {
 @media (min-width: 640px) { .card-top { margin-bottom: 28px; } }
 
 .progress { display: flex; flex-direction: column; gap: 8px; min-width: 0; transition: opacity .3s; }
-.progress-label { font-size: .9375rem; font-weight: 500; color: var(--muted); }
+.progress-label { font-size: .9375rem; font-weight: 500; color: var(--ink-muted); }
 .progress-track {
   display: block;
   width: 128px;
@@ -173,7 +139,7 @@ body {
   height: 100%;
   width: var(--p, 0%);
   border-radius: 2px;
-  background: var(--accent);
+  background: var(--ink);
   transition: width .5s cubic-bezier(.3, .7, .3, 1);
 }
 .card[data-step="0"] .progress,
@@ -192,7 +158,7 @@ body {
   border: 0;
   border-radius: 999px;
   background: none;
-  color: var(--muted);
+  color: var(--ink-muted);
   font-family: var(--font-body);
   font-size: .875rem;
   font-weight: 700;
@@ -200,9 +166,9 @@ body {
   transition: background .2s, color .2s;
 }
 .lang-switch button[lang="ar"] { font-size: .9375rem; }
-.lang-switch button:hover { color: var(--text); }
-.lang-switch button[aria-pressed="true"] { background: var(--accent); color: var(--on-accent); }
-.lang-switch button:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
+.lang-switch button:hover { color: var(--ink); }
+.lang-switch button[aria-pressed="true"] { background: var(--ink); color: var(--pink); }
+.lang-switch button:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
 
 /* ---------- Scenes ---------- */
 
@@ -247,7 +213,7 @@ legend { padding: 0; width: 100%; }
 .sub {
   margin: 0 0 22px;
   max-width: 52ch;
-  color: var(--muted);
+  color: var(--ink-muted);
   font-size: 1.0625rem;
   line-height: 1.6;
 }
@@ -260,11 +226,11 @@ legend { padding: 0; width: 100%; }
   margin: 0;
   padding: 0;
   list-style: none;
-  color: var(--muted);
+  color: var(--ink-muted);
   font-size: 1rem;
 }
 .facts li { display: inline-flex; align-items: center; gap: 8px; }
-.facts .ico { width: 18px; height: 18px; color: var(--text); }
+.facts .ico { width: 18px; height: 18px; color: var(--ink); }
 
 /* hidden radios stay reachable by keyboard and screen readers */
 .rate input, .option input {
@@ -297,7 +263,7 @@ legend { padding: 0; width: 100%; }
   padding: 12px 16px;
   border: 1px solid var(--line);
   border-radius: var(--radius);
-  background: var(--option);
+  background: var(--pink-soft);
   cursor: pointer;
   transition: border-color .2s, background .2s, color .2s;
   -webkit-tap-highlight-color: transparent;
@@ -312,7 +278,7 @@ legend { padding: 0; width: 100%; }
 .signal i:nth-child(3) { height: 13px; }
 .signal i:nth-child(4) { height: 16.5px; }
 .signal i:nth-child(5) { height: 20px; }
-.signal i.on { background: var(--signal-on); }
+.signal i.on { background: #8C6A80; }
 
 @media (min-width: 640px) {
   .scale { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; }
@@ -358,7 +324,7 @@ legend { padding: 0; width: 100%; }
   padding: 12px 14px 12px 12px;
   border: 1px solid var(--line);
   border-radius: var(--radius);
-  background: var(--option);
+  background: var(--pink-soft);
   cursor: pointer;
   transition: border-color .2s, background .2s, color .2s;
   -webkit-tap-highlight-color: transparent;
@@ -369,8 +335,8 @@ legend { padding: 0; width: 100%; }
   place-items: center;
   width: 40px; height: 40px;
   border-radius: 10px;
-  background: var(--icon-bg);
-  color: var(--text);
+  background: var(--pink);
+  color: var(--ink);
   transition: background .2s, color .2s;
 }
 .option-icon .ico { width: 20px; height: 20px; }
@@ -380,21 +346,21 @@ legend { padding: 0; width: 100%; }
 /* ---------- Hover / focus / selected (both questions) ---------- */
 
 .rate:hover, .option:hover { border-color: var(--line-strong); }
-.rate:has(input:focus-visible), .option:has(input:focus-visible) { outline: 2px solid var(--text); outline-offset: 2px; }
+.rate:has(input:focus-visible), .option:has(input:focus-visible) { outline: 2px solid var(--ink); outline-offset: 2px; }
 
 .rate:has(input:checked), .option:has(input:checked) {
-  border-color: var(--accent);
-  background: var(--accent);
-  color: var(--on-accent);
+  border-color: var(--ink);
+  background: var(--ink);
+  color: var(--pink);
 }
 .rate:has(input:checked) .label,
 .option:has(input:checked) .label { font-weight: 700; }
-.rate:has(input:checked) .signal i { background: var(--signal-off-sel); opacity: .35; }
-.rate:has(input:checked) .signal i.on { background: var(--on-accent); opacity: 1; }
-.option:has(input:checked) .option-icon { background: var(--on-accent); color: var(--accent); }
+.rate:has(input:checked) .signal i { background: #4A4348; }
+.rate:has(input:checked) .signal i.on { background: var(--pink); }
+.option:has(input:checked) .option-icon { background: var(--pink); color: var(--ink); }
 :has(input:checked) > .tick {
-  border-color: var(--on-accent);
-  background: radial-gradient(circle, var(--on-accent) 0 4px, transparent 4.5px);
+  border-color: var(--pink);
+  background: radial-gradient(circle, var(--pink) 0 4px, transparent 4.5px);
 }
 
 /* ---------- Buttons ---------- */
@@ -426,15 +392,15 @@ button { font: inherit; }
   -webkit-tap-highlight-color: transparent;
 }
 .btn:active:not(:disabled) { transform: translateY(1px); }
-.btn:focus-visible { outline: 2px solid var(--text); outline-offset: 3px; }
+.btn:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
 
-.btn-primary { border: 0; background: var(--accent); color: var(--on-accent); }
-.btn-primary:hover:not(:disabled) { background: var(--accent-hover); }
-.btn-primary:disabled { background: var(--disabled-bg); color: var(--disabled-text); cursor: not-allowed; }
+.btn-primary { border: 0; background: var(--ink); color: var(--pink); }
+.btn-primary:hover:not(:disabled) { background: var(--ink-hover); }
+.btn-primary:disabled { background: #F0CCE7; color: #A3839A; cursor: not-allowed; }
 .btn-primary.is-sending { opacity: .75; cursor: progress; }
 
-.btn-ghost { border: 1px solid var(--line-strong); background: transparent; color: var(--text); }
-.btn-ghost:hover { border-color: var(--text); }
+.btn-ghost { border: 1px solid var(--line-strong); background: transparent; color: var(--ink); }
+.btn-ghost:hover { border-color: var(--ink); }
 
 /* phones: the main button takes the remaining width */
 .actions .btn-primary { flex: 1; }
@@ -448,7 +414,7 @@ button { font: inherit; }
 #scene-thanks .sub { margin-inline: auto; }
 @media (min-width: 1200px) { #scene-thanks.is-active { padding-top: 12vh; } }
 .done-mark { width: 72px; height: 72px; margin: 0 auto 20px; }
-.done-mark svg { width: 100%; height: 100%; fill: none; stroke: var(--text); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+.done-mark svg { width: 100%; height: 100%; fill: none; stroke: var(--ink); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
 .done-mark circle { stroke-dasharray: 151; stroke-dashoffset: 151; }
 .done-mark path { stroke-dasharray: 36; stroke-dashoffset: 36; }
 #scene-thanks.is-active .done-mark circle { animation: draw .6s ease-out .1s forwards; }
@@ -460,8 +426,8 @@ button { font: inherit; }
 .setup-note {
   margin: 0;
   padding: 10px 16px;
-  background: var(--option);
-  color: var(--text);
+  background: #FFFFFF;
+  color: var(--ink);
   font-size: .9375rem;
   text-align: center;
 }
@@ -472,8 +438,8 @@ button { font: inherit; }
   padding: 12px 14px;
   border: 1px solid var(--danger);
   border-radius: 10px;
-  background: color-mix(in srgb, var(--danger) 10%, transparent);
-  color: var(--text);
+  background: rgba(180, 35, 24, .07);
+  color: var(--ink);
   font-size: 1rem;
 }
 

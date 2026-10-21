@@ -8,9 +8,6 @@ window.SURVEY_CONFIG = {
   // (README.md, step 2, shows where to get it.)
   endpoint: 'https://script.google.com/macros/s/AKfycbwUD9USTGxLi8UFS81tbB-vtvzg4LqyMjAVuG8muOEZIW1WpOwojackddCJejxgbwqG/exec',
 
-  // Page colour: 'white' or 'black'
-  theme: 'white',
-
   // Language the survey opens in: 'ar' (Arabic) or 'en' (English).
   // Guests can switch at the top of the survey; their choice is remembered.
   defaultLanguage: 'ar',

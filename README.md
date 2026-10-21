@@ -53,7 +53,6 @@ The sheet is private to you. Guests can only send answers; they can't see them.
 
 ## Settings in assets/config.js
 
-- `theme: 'white'` — white page; change to `'black'` for a black page.
 - `defaultLanguage: 'ar'` — the survey opens in Arabic; use `'en'` to open in English. Guests can switch with the عربي / English button at the top of the survey, and their choice is remembered.
 - `onePerDevice: true` — each phone answers once (best for a QR code).
 - `onePerDevice: false` — kiosk mode for one shared tablet: the thank-you screen shows a "Next guest" button.
