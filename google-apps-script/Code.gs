@@ -28,58 +28,8 @@ const SUMMARY = 'Summary';
 const TIMEZONE = 'Asia/Beirut';
 const HEADERS = ['Submitted at', 'Overall experience', 'Score (1-5)', 'Improve first', 'التجربة', 'التحسين', 'Language'];
 
-/* ---------- Receives each answer from the website ---------- */
-function doPost(e) {
-  const p = (e && e.parameter) || {};
-
-  // Hidden field only bots fill in: say ok, save nothing.
-  if (p.website) return json_({ ok: true });
-
-  const rating = RATING[p.rating];
-  const improve = IMPROVE[p.improve];
-  if (!rating || !improve) {
-    return json_({ ok: false, error: 'Please answer both questions' });
-  }
-
-  const lock = LockService.getScriptLock();
-  try {
-    lock.waitLock(15000);
-    const language = p.lang === 'en' ? 'English' : 'Arabic';
-    responsesSheet_().appendRow([new Date(), rating[0], rating[2], improve[0], rating[1], improve[1], language]);
-  } catch (err) {
-    return json_({ ok: false, error: 'Could not save, try again' });
-  } finally {
-    lock.releaseLock();
-  }
-  return json_({ ok: true });
-}
-
-/* Opening the web app link in a browser shows this — handy to check it works. */
-function doGet() {
-  return json_({ ok: true, message: 'Survey receiver is running.' });
-}
-
-function json_(obj) {
-  return ContentService.createTextOutput(JSON.stringify(obj))
-    .setMimeType(ContentService.MimeType.JSON);
-}
-
-function responsesSheet_() {
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
-  let sh = ss.getSheetByName(RESPONSES);
-  if (!sh) {
-    sh = ss.insertSheet(RESPONSES, 0);
-    sh.appendRow(HEADERS);
-    sh.setFrozenRows(1);
-    sh.getRange(1, 1, 1, HEADERS.length).setFontWeight('bold');
-    sh.getRange('A:A').setNumberFormat('yyyy-mm-dd hh:mm');
-    sh.setColumnWidth(1, 150);
-    sh.setColumnWidths(2, 6, 190);
-  }
-  return sh;
-}
-
-/* ---------- Run once: builds the Responses and Summary tabs ---------- */
+/* ---------- STEP 1: choose "setup" in the toolbar and click Run (once) ----------
+   Builds the Responses and Summary tabs in this sheet. */
 function setup() {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
   ss.setSpreadsheetTimeZone(TIMEZONE);
@@ -161,4 +111,55 @@ function setup() {
   if (blank && blank.getLastRow() === 0 && ss.getSheets().length > 2) ss.deleteSheet(blank);
 
   ss.setActiveSheet(sh);
+}
+
+/* ---------- Receives each answer from the website ---------- */
+function doPost(e) {
+  const p = (e && e.parameter) || {};
+
+  // Hidden field only bots fill in: say ok, save nothing.
+  if (p.website) return json_({ ok: true });
+
+  const rating = RATING[p.rating];
+  const improve = IMPROVE[p.improve];
+  if (!rating || !improve) {
+    return json_({ ok: false, error: 'Please answer both questions' });
+  }
+
+  const lock = LockService.getScriptLock();
+  try {
+    lock.waitLock(15000);
+    const language = p.lang === 'en' ? 'English' : 'Arabic';
+    responsesSheet_().appendRow([new Date(), rating[0], rating[2], improve[0], rating[1], improve[1], language]);
+  } catch (err) {
+    return json_({ ok: false, error: 'Could not save, try again' });
+  } finally {
+    lock.releaseLock();
+  }
+  return json_({ ok: true });
+}
+
+/* Opening the web app link in a browser shows this — handy to check it works. */
+function doGet() {
+  return json_({ ok: true, message: 'Survey receiver is running.' });
+}
+
+function json_(obj) {
+  return ContentService.createTextOutput(JSON.stringify(obj))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+function responsesSheet_() {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  let sh = ss.getSheetByName(RESPONSES);
+  if (!sh) {
+    sh = ss.insertSheet(RESPONSES, 0);
+    sh.appendRow(HEADERS);
+    sh.setFrozenRows(1);
+    sh.getRange(1, 1, 1, HEADERS.length).setFontWeight('bold');
+    sh.getRange('A:A').setNumberFormat('yyyy-mm-dd hh:mm');
+    sh.setColumnWidth(1, 150);
+    sh.setColumnWidths(2, 6, 190);
+  }
+  return sh;
 }
